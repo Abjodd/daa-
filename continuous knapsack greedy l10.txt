@@ -1,0 +1,51 @@
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class KnapsackProblem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of items: ");
+        int n = scanner.nextInt();
+        
+        Item[] items = new Item[n];
+        for (int i = 0; i < n; i++) {
+            System.out.printf("Enter Weight and Profit for item[%d]:\n", i);
+            float weight = scanner.nextFloat();
+            float profit = scanner.nextFloat();
+            items[i] = new Item(weight, profit);
+        }
+        
+        System.out.print("Enter the capacity of knapsack: ");
+        float capacity = scanner.nextFloat();
+
+        Arrays.sort(items, (a, b) -> Float.compare(b.ratio(), a.ratio()));
+
+        float totalValue = 0;
+        for (Item item : items) {
+            if (item.weight <= capacity) {
+                totalValue += item.profit;
+                capacity -= item.weight;
+            } else {
+                totalValue += item.ratio() * capacity;
+                break;
+            }
+        }
+
+        System.out.println("\nThe maximum value is: " + totalValue);
+        scanner.close();
+    }
+
+    static class Item {
+        float weight, profit;
+        
+        Item(float weight, float profit) {
+            this.weight = weight;
+            this.profit = profit;
+        }
+        
+        float ratio() {
+            return profit / weight;
+        }
+    }
+}

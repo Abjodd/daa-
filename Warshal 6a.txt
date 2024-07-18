@@ -1,0 +1,30 @@
+import java.util.Scanner;
+
+public class TransitiveClosure {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of nodes: ");
+        int n = scanner.nextInt();
+
+        int[][] cost = new int[n][n];
+        System.out.println("\nEnter the adjacency matrix:");
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                cost[i][j] = scanner.nextInt();
+
+        for (int k = 0; k < n; k++)
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                    cost[i][j] = cost[i][j] | (cost[i][k] & cost[k][j]);
+
+        System.out.println("\nThe transitive closure is:");
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++)
+                System.out.print(cost[i][j] + "\t");
+            System.out.println();
+        }
+
+        scanner.close();
+    }
+}

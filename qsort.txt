@@ -1,0 +1,64 @@
+package com.mycompany.mmain;
+
+/**
+ *
+ * @author admin
+ */
+import java.util.Random;
+
+public class QuickSort {
+  static int[] a;
+
+  public static void quickSort(int low, int high) {
+    if (low < high) {
+      int j = partition(low, high);
+      quickSort(low, j - 1);
+      quickSort(j + 1, high);
+    }
+  }
+
+  public static int partition(int low, int high) {
+    int key = a[low];
+    int i = low + 1;
+    int j = high;
+
+    while (true) {
+      while (i < high && a[i] < key) i++;
+      while (key < a[j]) j--;
+      if (i < j) {
+        swap(i, j);
+      } else {
+        swap(low, j);
+        return j;
+      }
+    }
+  }
+
+  private static void swap(int i, int j) {
+    int temp = a[i];
+    a[i] = a[j];
+    a[j] = temp;
+  }
+
+  public static void main(String[] args) {
+    System.out.print("Enter the number of elements: ");
+    int n = Integer.parseInt(System.console().readLine());
+    a = new int[n];
+
+    Random rand = new Random();
+    System.out.println("\nArray elements are:");
+    for (int i = 0; i < n; i++) {
+      a[i] = rand.nextInt(100);
+      System.out.print(a[i] + "\t");
+    }
+
+    long start = System.currentTimeMillis();
+    quickSort(0, n - 1);
+    long end = System.currentTimeMillis();
+
+    System.out.println("\nSorted elements are:");
+    for (int i : a) System.out.println(i);
+
+    System.out.println("\nTime taken: " + (end - start) + " milliseconds");
+  }
+}

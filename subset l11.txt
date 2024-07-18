@@ -1,0 +1,30 @@
+import java.util.Scanner;
+
+public class SubsetSum {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of elements (n): ");
+        int n = scanner.nextInt();
+        int[] set = new int[n];
+        System.out.println("Enter the elements of the set:");
+        for (int i = 0; i < n; i++) set[i] = scanner.nextInt();
+        System.out.print("Enter the desired sum (d): ");
+        int d = scanner.nextInt();
+        findSubsets(set, d, new int[n], 0, 0);
+        scanner.close();
+    }
+
+    static void findSubsets(int[] set, int target, int[] subset, int subsetSum, int index) {
+        if (subsetSum == target) {
+            System.out.print("Subset found: ");
+            for (int i = 0; i < set.length; i++) if (subset[i] == 1) System.out.print(set[i] + " ");
+            System.out.println();
+            return;
+        }
+        if (subsetSum > target || index == set.length) return;
+        subset[index] = 1;
+        findSubsets(set, target, subset, subsetSum + set[index], index + 1);
+        subset[index] = 0;
+        findSubsets(set, target, subset, subsetSum, index + 1);
+    }
+}

@@ -1,0 +1,30 @@
+public class HorspoolStringMatching {
+  private static final int ALPHABET_SIZE = 256;
+
+  public static void main(String[] args) {
+    String text = "BESS_KNEW_ABOUT_BAOBABS";
+    String pattern = "BAOBAB";
+    int index = search(text, pattern);
+    System.out.println(index != -1 ? "Pattern found at index " + index : "Pattern not found in the text.");
+  }
+
+  static int[] preprocessPattern(String pattern) {
+    int m = pattern.length();
+    int[] table = new int[ALPHABET_SIZE];
+    for (int i = 0; i < ALPHABET_SIZE; i++) table[i] = m;
+    for (int i = 0; i < m - 1; i++) table[pattern.charAt(i)] = m - 1 - i;
+    return table;
+  }
+
+  static int search(String text, String pattern) {
+    int n = text.length(), m = pattern.length();
+    int[] shiftTable = preprocessPattern(pattern);
+    for (int i = m - 1; i < n; ) {
+      int j = m - 1;
+      while (j >= 0 && text.charAt(i) == pattern.charAt(j)) { i--; j--; }
+      if (j == -1) return i + 1;
+      i += Math.max(m - j, shiftTable[text.charAt(i + 1)]);
+    }
+    return -1;
+  }
+}
